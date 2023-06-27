@@ -161,18 +161,18 @@ def Task(task, set_done=None, set_new_tasks=None):
     # if not task["done"]:
     return html.li(
         attrs["single task"],
-        html.button({"style": attrs["close task btn"]
-                    ["style"], "onClick": handleClick}, "")
-        if not task["done"] else
-        html.button(
-            {"style": attrs["close task btn active"]["style"], "onClick": handleClick}, ""),
-
-        html.span(attrs["task text"], task["task"])
-        if not task["done"] else
-        html.span(attrs["task text active"], task["task"]),
-
-        html.button({"style": attrs["delete btn"]
-                    ["style"], "onClick": handleDelete}, "+")
+        html.button({
+            "style": attrs["close task btn"]["style"] if not task["done"] else attrs["close task btn active"]["style"],
+            "onClick": handleClick
+        }, ""),
+        html.span(
+            attrs["task text"] if not task["done"] else attrs["task text active"],
+            task["task"]
+        ),
+        html.button({
+            "style": attrs["delete btn"]["style"],
+            "onClick": handleDelete
+        }, "+")
     )
 
 
@@ -222,16 +222,24 @@ def ToDoList():
             html.h1(styles["tasks title"], "Pending Tasks"),
             html.form(
                 styles["tasks form"],
-                html.input(
-                    {"style": styles["form imput"]["style"], "value": new_task, "onChange": handleChange}),
+                html.input({
+                    "style": styles["form imput"]["style"], "value": new_task,
+                    "onChange": handleChange
+                }),
                 html.button({
-                            "style": styles["form button"]["style"], "type": "button", "onClick": handleClick}, "New Task")
+                    "style": styles["form button"]["style"], "type": "button",
+                    "onClick": handleClick
+                }, "New Task")
             ),
             html.ul(
                 styles["tasks container"],
                 [
                     html.li(Task(task, set_done=set_done, set_new_tasks=set_new_tasks), key=task["id"]) for task in tasks
-                ] if len(tasks) > 0 else html.span({"style": {"width": "100%", "text-align": "center", "padding-top": "2rem"}}, "No pending taks")
+                ]
+                if len(tasks) > 0 else
+                html.span({
+                    "style": {"width": "100%", "text-align": "center", "padding-top": "2rem"}
+                }, "No pending taks")
             )
 
         )
